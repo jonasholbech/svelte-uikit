@@ -5,7 +5,8 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv public --no-clear"
+    "start": "sirv public --no-clear",
+    "start-local": "netlify dev"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
@@ -18,6 +19,7 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
+    "isomorphic-fetch": "^3.0.0",
     "netlify-identity-widget": "^1.9.2",
     "sirv-cli": "^1.0.0"
   }

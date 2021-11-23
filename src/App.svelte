@@ -1,22 +1,22 @@
 <script>
   import { onMount } from "svelte";
+  import { user, isLoggedIn } from "./stores/user";
   import netlifyIdentity from "netlify-identity-widget";
-  let isLoggedIn = false;
-  let user = null;
-  onMount(() => {
-    netlifyIdentity.on("init", (user) => {
+
+  onMount(async () => {
+    netlifyIdentity.on("init", async (user) => {
       console.log("init ran, doing nothing");
     });
-    netlifyIdentity.on("login", (authUser) => {
-      console.log("login ran");
-      user = authUser;
-      isLoggedIn = true;
-      netlifyIdentity.refresh().then((jwt) => console.log(jwt));
+    netlifyIdentity.on("login", async (authUser) => {
+      console.log("login ran", authUser);
+      user.set(authUser);
+      isLoggedIn.set(true);
+      netlifyIdentity.refresh().then((jwt) => {});
     });
-    netlifyIdentity.on("logout", () => {
+    netlifyIdentity.on("logout", async () => {
       console.log("logout ran");
-      user = null;
-      isLoggedIn = false;
+      user.set(null);
+      isLoggedIn.set(false);
     });
     netlifyIdentity.on("error", (err) => console.error("Error", err));
     netlifyIdentity.on("open", () => console.log("Widget opened"));
@@ -26,18 +26,22 @@
     console.log("init");
   });
   function handleLoginButton() {
-    if (isLoggedIn) {
+    if ($isLoggedIn) {
       netlifyIdentity.logout();
     } else {
       netlifyIdentity.open();
     }
   }
+  console.log(user);
 </script>
 
 <main>
-  <button class="uk-button uk-button-primary" on:click={handleLoginButton}
-    >Primary</button
-  >
+  <button class="uk-button uk-button-primary" on:click={handleLoginButton}>
+    Primary
+  </button>
+  {#if $user}
+    <h1>Hi {$user.user_metadata.full_name}</h1>
+  {/if}
 </main>
 
 <style>
