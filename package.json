@@ -7,6 +7,7 @@
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear"
   },
+  "homepage": "https://github.com/jonasholbech/svelte-queue",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
