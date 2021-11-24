@@ -6,7 +6,7 @@
   import { setupIdentity, canAccess } from "./utils/identity";
   import { getRooms } from "./utils/crud";
   import CreateRoom from "./components/CreateRoom.svelte";
-  import Room from "./components/Room.svelte";
+  import Room from "./pages/Room.svelte";
 
   let rooms = [];
 
