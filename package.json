@@ -19,6 +19,7 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
+    "dotenv": "^10.0.0",
     "isomorphic-fetch": "^3.0.0",
     "netlify-identity-widget": "^1.9.2",
     "sirv-cli": "^1.0.0"

@@ -1,37 +1,67 @@
 require("isomorphic-fetch");
-exports.handler = async (evt, ctx) => {
-  //const {identity, user} = context.clientContext;
-  let user = JSON.parse(evt.body);
-  console.log(user);
-  console.log(ctx.clientContext);
-  const user = ctx.clientContext.user;
-  //task.userId = user.sub;
+require("dotenv").config();
 
-  console.log(user);
-  if (!user) {
-    return {
-      statusCode: 401,
+const API_ENDPOINT =
+  "https://api-eu-central-1.graphcms.com/v2/ckwckxtiv4la701z29z5k69iq/master";
+const token = process.env.GRAPH_TOKEN;
+
+exports.handler = async (event, context) => {
+  const user = context.clientContext.user;
+  const query = {
+    query: `query MyQuery($userID:String) {
+person(where:{userID:$userID}) {
+  fullName
+}
+}`,
+    variables: {
+      userID: user.sub,
+    },
+  };
+
+  try {
+    const response = await fetch(API_ENDPOINT, {
+      method: "POST",
       headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "Authorization, Content-Type",
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ error: "Not authorized" }),
+      body: JSON.stringify(query),
+    });
+    const data = await response.json();
+    if (!data.data.person?.fullName) {
+      //user does not exist in DB, create them
+      const CREATE_PERSON_QUERY = {
+        query: `mutation AddPerson($userID:String!, $fullName:String!) {
+          createPerson (data: {
+            fullName:$fullName, userID:$userID
+          }) {
+            fullName
+          }
+        }`,
+        variables: {
+          fullName: user.user_metadata.full_name,
+          userID: user.sub,
+        },
+      };
+      const response = await fetch(API_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(CREATE_PERSON_QUERY),
+      });
+      const data = await response.json();
+
+      return { statusCode: 200, body: JSON.stringify({ firstVisit: true }) };
+    } else {
+      return { statusCode: 200, body: JSON.stringify({ firstVisit: false }) };
+    }
+  } catch (error) {
+    console.log(error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Failed fetching data" }),
     };
   }
-  const response = await fetch("https://swapi.dev/api/people/1/");
-  const tasks = await response.json();
-  // https://swapi.dev/api/people/1/
-  //user.sub is our user id
-  //let tasks = await someDBservice("tasks", {filter:user.sub})
-
-  return {
-    statusCode: 200,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "Authorization, Content-Type",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(tasks),
-  };
 };
