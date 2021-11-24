@@ -1,10 +1,12 @@
 <script>
   import netlifyIdentity from "netlify-identity-widget";
+  import { Router, Link, Route } from "svelte-routing";
   import { onMount } from "svelte";
   import { user, isLoggedIn, firstVisit, role } from "./stores/user";
   import { setupIdentity, canAccess } from "./utils/identity";
   import { getRooms } from "./utils/crud";
   import CreateRoom from "./components/CreateRoom.svelte";
+  import Room from "./components/Room.svelte";
 
   let rooms = [];
 
@@ -25,6 +27,13 @@
     }
   }
   console.log($role);
+  export let url = "";
+  /*
+  <Route path="blog/:id" component={BlogPost} />
+    <Route path="blog" component={Blog} />
+    <Route path="about" component={About} />
+    <Route path="/"><Home /></Route>
+  */
 </script>
 
 <nav class="uk-navbar-container" uk-navbar>
@@ -51,20 +60,23 @@
   </div>
 </nav>
 
-<main>
-  {#if $user}
-    <h1>
-      Hi {$user.user_metadata.full_name}, {$firstVisit
-        ? "good to meet you"
-        : "welcome back"}
-    </h1>
-  {/if}
-</main>
-<CreateRoom />
-<h2>Available Rooms</h2>
-{#each rooms as room (room.id)}
-  <h3>{room.name}</h3>
-{/each}
+<Router {url}>
+  <Route path="room/:id" component={Room} />
+  <main>
+    {#if $user}
+      <h1>
+        Hi {$user.user_metadata.full_name}, {$firstVisit
+          ? "good to meet you"
+          : "welcome back"}
+      </h1>
+    {/if}
+  </main>
+  <CreateRoom />
+  <h2>Available Rooms</h2>
+  {#each rooms as room (room.id)}
+    <Link to={`room/${room.id}`}>{room.name}</Link>
+  {/each}
+</Router>
 
 <style>
   li {
