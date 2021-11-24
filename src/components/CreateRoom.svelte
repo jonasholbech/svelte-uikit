@@ -1,13 +1,15 @@
 <script>
   import { canAccess } from "../utils/identity";
   import { role, user } from "../stores/user";
+  import slugify from "slugify";
   let room = "";
   let promise = null;
   async function post(e) {
     const query = {
-      query: `mutation AddRoom($name:String!, $userID:String!) {
+      query: `mutation AddRoom($name:String!, $userID:String!, $slug:String!) {
   createRoom (data:{
     name: $name
+    slug:$slug
     person: {
       connect: {
         userID: $userID
@@ -16,11 +18,13 @@
   }){
     name
     id
+    slug
   }
 }`,
       variables: {
         userID: $user.id,
         name: room,
+        slug: slugify(room), //TODO: det her sikrer ikke at det er unikt
       },
     };
     const resp = await fetch("/api/gql", {
@@ -45,7 +49,9 @@
             {#await promise}
               <div uk-spinner />
             {:then response}
-              <p>{response.data.createRoom.name} was created</p>
+              <p>
+                <strong>{response.data.createRoom.name}</strong> was created
+              </p>
             {:catch error}
               <p style="color: red">{error.message}</p>
             {/await}

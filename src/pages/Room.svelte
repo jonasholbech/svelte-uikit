@@ -1,8 +1,20 @@
 <script>
-  import { Route, navigate } from "svelte-routing";
-  import { user, isLoggedIn } from "../stores/user";
-  $: !isLoggedIn && navigate("/");
-  export let id;
+  import { navigate } from "svelte-routing";
+  import { onMount, onDestroy } from "svelte";
+  import { isLoggedIn } from "../stores/user";
+
+  $: !$isLoggedIn && navigate("/", { replace: true });
+  let interval = null;
+  onMount(() => {
+    interval = setInterval(getData, 5000);
+  });
+  onDestroy(() => {
+    clearInterval(interval);
+    interval = null;
+  });
+  async function getData() {}
+
+  export let slug;
 </script>
 
-<h1>I'm a room: {id}</h1>
+<h2>{slug}</h2>

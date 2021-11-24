@@ -4,8 +4,11 @@
   "private": true,
   "scripts": {
     "build": "rollup -c",
+    "note": "changed the dev command to get refreahes to work in dev",
     "dev": "rollup -c -w",
-    "start": "sirv public --no-clear",
+    "dev-bck": "sirv public --dev -s",
+    "start": "sirv public --no-clear -s",
+    "start:dev": "sirv public --dev -s",
     "start-local": "netlify dev"
   },
   "devDependencies": {
@@ -23,6 +26,7 @@
     "isomorphic-fetch": "^3.0.0",
     "netlify-identity-widget": "^1.9.2",
     "sirv-cli": "^1.0.0",
+    "slugify": "^1.6.3",
     "svelte-routing": "^1.6.0"
   }
 }

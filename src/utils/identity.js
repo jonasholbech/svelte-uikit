@@ -34,6 +34,7 @@ export const setupIdentity = () => {
   netlifyIdentity.on("close", () => console.log("Widget closed"));
   //apparently, register eventlisteners before init
   netlifyIdentity.init();
+  netlifyIdentity.close(); //Hack, ved ikke hvorfor den pludseligt åbner sig
   console.log("init");
 };
 async function getUser(authUser) {

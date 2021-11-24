@@ -71,3 +71,20 @@ h6 {
   white-space: nowrap;
   width: 1px;
 }
+
+main {
+  max-width: 800px;
+  margin: auto;
+}
+h2 {
+  text-align: center;
+}
+.uk-list > li > a {
+  display: block;
+}
+nav > *:first-child {
+  margin-left: 1rem;
+}
+nav > *:last-child {
+  margin-right: 1rem;
+}

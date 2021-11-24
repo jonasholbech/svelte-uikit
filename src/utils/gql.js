@@ -4,6 +4,7 @@ export const getRoomsQuery = () => {
         rooms {
           name
           id
+          slug
         }
       }`,
   };
