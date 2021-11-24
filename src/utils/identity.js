@@ -1,4 +1,3 @@
-import { resolveSrv } from "dns/promises";
 import netlifyIdentity from "netlify-identity-widget";
 import { firstVisit, user, isLoggedIn, role } from "../stores/user";
 export const setupIdentity = () => {
@@ -10,7 +9,10 @@ export const setupIdentity = () => {
     user.set(authUser);
     isLoggedIn.set(true);
     const resp = await getUser(authUser);
-    if (authUser.email === "jofh@kea.dk") {
+    if (
+      authUser.email === "jofh@kea.dk" ||
+      authUser.email === "jh@jonasholbech.dk"
+    ) {
       role.set("admin");
     } else if (authUser.email.includes("@kea.dk")) {
       role.set("moderator");
