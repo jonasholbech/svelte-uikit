@@ -1,11 +1,18 @@
 import netlifyIdentity from "netlify-identity-widget";
-import { firstVisit, user, isLoggedIn, role } from "../stores/user";
+import {
+  firstVisit,
+  user,
+  isLoggedIn,
+  role,
+  identityChecksDone,
+} from "../stores/user";
 export const setupIdentity = () => {
   netlifyIdentity.on("init", async (user) => {
-    console.log("init ran, doing nothing");
+    console.log("init ran, doing nothing", user);
   });
   netlifyIdentity.on("login", async (authUser) => {
     console.log("login ran", authUser);
+    identityChecksDone.set(true);
     user.set(authUser);
     isLoggedIn.set(true);
     const resp = await getUser(authUser);
@@ -26,6 +33,7 @@ export const setupIdentity = () => {
   });
   netlifyIdentity.on("logout", async () => {
     console.log("logout ran");
+    identityChecksDone.set(true);
     user.set(null);
     isLoggedIn.set(false);
   });
@@ -38,9 +46,7 @@ export const setupIdentity = () => {
   console.log("init");
 };
 async function getUser(authUser) {
-  console.log(authUser);
-
-  //return JSON.stringify(query);
+  //console.log(authUser);
   const resp = await fetch("/api/getUser", {
     method: "POST",
     headers: {
