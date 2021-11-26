@@ -4,13 +4,13 @@
   import { user } from "../stores/user";
   import { markdown } from "../utils/render";
   export let answer;
+  export let deleteAnswer;
   import Avatar from "./Avatar.svelte";
   let el;
   onMount(() => {
     Prism.highlightAll();
     //TODO: highlighter for hvert answer og ikke ved nyt question
   });
-  function deleteAnswer() {}
 </script>
 
 <li bind:this={el}>
@@ -35,10 +35,11 @@
           {#if $user.id === answer.person.userID}
             <ul class="uk-iconnav uk-position-top-right">
               <li>
-                <button uk-icon="icon: file-edit" on:click={deleteAnswer} />
+                <button
+                  uk-icon="icon: trash"
+                  on:click={() => deleteAnswer(answer.id)}
+                />
               </li>
-              <li><button uk-icon="icon: copy" /></li>
-              <li><button uk-icon="icon: trash" /></li>
             </ul>
           {/if}
           <hr class="uk-divider-icon" />

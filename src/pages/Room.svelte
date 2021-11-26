@@ -1,13 +1,17 @@
 <script>
   import { navigate } from "svelte-routing";
-  import { formatDistance } from "date-fns";
-  import { markdown } from "../utils/render";
+
   import { onMount, onDestroy } from "svelte";
   import { isLoggedIn, identityChecksDone, user } from "../stores/user";
-  import { getRoomData, addAnswer, addQuestion } from "../utils/crud";
-  import Answer from "../components/Answer.svelte";
-  import Avatar from "../components/Avatar.svelte";
-  import AnswerForm from "../components/AnswerForm.svelte";
+  import {
+    getRoomData,
+    addAnswer,
+    addQuestion,
+    deleteAnswer as deleteAnswerRequest,
+    deleteQuestion as deleteQuestionRequest,
+  } from "../utils/crud";
+
+  import Question from "../components/Question.svelte";
   import QuestionForm from "../components/QuestionForm.svelte";
   export let slug;
 
@@ -68,6 +72,17 @@
     //getData();
     //TODO: merge state instead of fetching again
   }
+  async function deleteAnswer(answerID) {
+    const deleted = await deleteAnswerRequest($user, answerID);
+    const id = deleted.deleteAnswer.id; //TODO: hvis jeg fjerner GQL navnet slipper jeg så ikke får .deleteAnswer?
+    getData();
+    //TODO: merge state instead of fetching again, skal nok bruge questionID
+  }
+  async function deleteQuestion(questionID) {
+    const deleted = await deleteQuestionRequest($user, questionID);
+    getData();
+    //TODO: merge state instead of fetching again
+  }
 </script>
 
 {#if roomData}
@@ -75,46 +90,7 @@
   <QuestionForm {addQuestionSubmit} />
   <ul class="uk-comment-list">
     {#each roomData.question as question (question.id)}
-      <li id={`question_${question.id}`}>
-        <article class="uk-comment uk-visible-toggle" tabindex="-1">
-          <header class="uk-comment-header uk-position-relative">
-            <div class="uk-grid-medium uk-flex-middle" uk-grid>
-              <div class="uk-width-auto">
-                <Avatar name={question.person.fullName} />
-              </div>
-              <div class="uk-width-expand">
-                <h4 class="uk-comment-title uk-margin-remove">
-                  {question.person.fullName}
-                </h4>
-                <p class="uk-comment-meta uk-margin-remove-top">
-                  {formatDistance(new Date(question.createdAt), new Date(), {
-                    addSuffix: true,
-                  })}
-                </p>
-              </div>
-            </div>
-            <div
-              class="uk-position-top-right uk-position-small uk-hidden-hover"
-            >
-              <a class="uk-link-muted" href="#/">Reply</a>
-            </div>
-          </header>
-          <h4 class="uk-comment-title">{question.question}</h4>
-          <div class="uk-comment-body">
-            <p>
-              {@html markdown(question.details)}
-            </p>
-          </div>
-        </article>
-        <!-- comments here -->
-        <ul>
-          {#each question.answer as answer (answer.id)}
-            <Answer {answer} />
-          {/each}
-          <li><AnswerForm {addAnswerSubmit} questionID={question.id} /></li>
-        </ul>
-        <!-- comments end-->
-      </li>
+      <Question {deleteQuestion} {deleteAnswer} {addAnswerSubmit} {question} />
     {/each}
   </ul>
 {/if}

@@ -99,3 +99,8 @@ html {
 .uk-comment-list .uk-comment ~ ul > :nth-child(n + 2) {
   margin-top: 2rem;
 }
+
+/* .uk-open > .uk-offcanvas-reveal,
+.uk-offcanvas-bar {
+  min-width: 800px;
+} */

@@ -110,3 +110,38 @@ export const getAddQuestionQuery = (user, question, details, roomID) => {
   };
   return JSON.stringify(query);
 };
+export const deleteAnswerQuery = (answerID) => {
+  const query = {
+    query: `mutation DeleteAnswer($answerID:ID!){
+        deleteAnswer(where:{id:$answerID}){
+          id
+        }
+      }`,
+    variables: {
+      answerID,
+    },
+  };
+  return JSON.stringify(query);
+};
+export const deleteQuestionQuery = (questionID) => {
+  const query = {
+    query: `mutation DeleteChildren($questionID:ID!) {
+            deleteManyAnswersConnection(where:{question:{
+              id:$questionID
+            }}) {
+              edges {
+                node {
+                  id
+                }
+              }
+            }
+            deleteQuestion(where:{id:$questionID}){
+              id
+            }
+          }`,
+    variables: {
+      questionID,
+    },
+  };
+  return JSON.stringify(query);
+};

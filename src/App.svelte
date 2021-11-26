@@ -1,7 +1,7 @@
 <script>
   import { Router, Link, Route } from "svelte-routing";
   import { onMount } from "svelte";
-  import { user, isLoggedIn, role } from "./stores/user";
+
   import { setupIdentity } from "./utils/identity";
 
   import Nav from "./components/Nav.svelte";
