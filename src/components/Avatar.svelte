@@ -1,6 +1,6 @@
 <script>
   export let name;
-  export let size = 60;
+  export const size = 60; //TODO: implement sizes indiv
   let parts = name.split(" ");
   let first = name[0];
   let second = name[1];
