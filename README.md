@@ -1,8 +1,5 @@
 # TODO
 
-Question => component
-delete answer
-delete question
 move redirect component to module or similar
 interval on fetching (commented out)
 reply button/link in question
@@ -12,6 +9,9 @@ remove UIKt dep
 preview when commenting/asking?
 show delete buttons for user/moderator only
 out/in animations
+new room does not update state
+
+- skal det være en store? eller lægges på app?
 
 # Tests
 

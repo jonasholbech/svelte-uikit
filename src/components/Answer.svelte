@@ -1,4 +1,14 @@
 <script>
+  import {
+    fade,
+    blur,
+    fly,
+    slide,
+    scale,
+    draw,
+    crossfade,
+  } from "svelte/transition";
+
   import { formatDistance } from "date-fns";
   import { onMount } from "svelte";
   import { user } from "../stores/user";
@@ -13,7 +23,7 @@
   });
 </script>
 
-<li bind:this={el}>
+<li bind:this={el} in:fly out:blur>
   <article
     class="uk-comment uk-comment-primary uk-visible-toggle"
     tabindex="-1"

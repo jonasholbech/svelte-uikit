@@ -31,6 +31,7 @@
       </div>
       <div class="uk-position-top-right uk-position-small">
         <ul class="uk-iconnav">
+          <li><button uk-icon="reply" /></li>
           <li>
             <button
               uk-icon="icon: trash"

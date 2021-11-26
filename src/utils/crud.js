@@ -12,6 +12,7 @@ export const getRooms = async (user) => {
     headers: {
       Authorization: `Bearer ${user.token.access_token}`,
       "Content-Type": "application/json",
+      "cache-control": "no-cache",
     },
     body: getRoomsQuery(),
   });
@@ -24,6 +25,7 @@ export const getRoomData = async (user, slug) => {
     headers: {
       Authorization: `Bearer ${user.token.access_token}`,
       "Content-Type": "application/json",
+      "cache-control": "no-cache",
     },
     body: getRoomQuery(slug),
   });
