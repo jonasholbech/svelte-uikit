@@ -1,12 +1,18 @@
 <script>
   import { formatDistance } from "date-fns";
+  import { onMount } from "svelte";
   import { user } from "../stores/user";
   import { markdown } from "../utils/render";
   export let answer;
   import Avatar from "./Avatar.svelte";
+  let el;
+  onMount(() => {
+    Prism.highlightAll();
+    //TODO: highlighter for hvert answer og ikke ved nyt question
+  });
 </script>
 
-<li>
+<li bind:this={el}>
   <article
     class="uk-comment uk-comment-primary uk-visible-toggle"
     tabindex="-1"
