@@ -1,5 +1,6 @@
 <script>
   import { formatDistance } from "date-fns";
+  import { marked } from "marked";
   import { user } from "../stores/user";
   export let answer;
   import Avatar from "./Avatar.svelte";
@@ -38,7 +39,7 @@
     </header>
     <div class="uk-comment-body">
       <p>
-        {answer.answer}
+        {@html marked.parse(answer.answer)}
       </p>
     </div>
   </article>
