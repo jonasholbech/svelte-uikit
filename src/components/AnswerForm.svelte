@@ -17,7 +17,7 @@
       <textarea
         class="uk-textarea"
         rows="5"
-        placeholder="Textarea"
+        placeholder="Your answer"
         name="answer"
         bind:value
         required

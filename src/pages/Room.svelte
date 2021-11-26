@@ -3,8 +3,9 @@
   import { formatDistance } from "date-fns";
   import { onMount, onDestroy } from "svelte";
   import { isLoggedIn, identityChecksDone, user } from "../stores/user";
-  import { getRoomData, addAnswer } from "../utils/crud";
+  import { getRoomData, addAnswer, addQuestion } from "../utils/crud";
   import Answer from "../components/Answer.svelte";
+  import Avatar from "../components/Avatar.svelte";
   import AnswerForm from "../components/AnswerForm.svelte";
   import QuestionForm from "../components/QuestionForm.svelte";
   export let slug;
@@ -47,30 +48,38 @@
     tempRoom.answers = tempAnswers;
     roomData = tempRoom;*/
   }
-  async function addQuestionSubmit(question, roomID) {
-    const nextQuestion = await addQuestion($user, question, roomID);
-    getData();
+  //TODO: question component
+  async function addQuestionSubmit(question, details) {
+    const nextQuestion = await addQuestion(
+      $user,
+      question,
+      details,
+      roomData.id
+    );
+    const copy = { ...roomData };
+    copy.question = roomData.question.concat(nextQuestion.createQuestion);
+    roomData = copy;
+    UIkit.offcanvas(document.querySelector("#offcanvas-reveal")).hide();
+    setTimeout(() => {
+      window.location.href = `#question_${nextQuestion.createQuestion.id}`;
+    }, 500);
+
+    //getData();
     //TODO: merge state instead of fetching again
   }
 </script>
 
 {#if roomData}
   <h2>{roomData.name}</h2>
-  <QuestionForm {addAnswerSubmit} roomID={roomData.id} />
+  <QuestionForm {addQuestionSubmit} />
   <ul class="uk-comment-list">
     {#each roomData.question as question (question.id)}
-      <li>
+      <li id={`question_${question.id}`}>
         <article class="uk-comment uk-visible-toggle" tabindex="-1">
           <header class="uk-comment-header uk-position-relative">
             <div class="uk-grid-medium uk-flex-middle" uk-grid>
               <div class="uk-width-auto">
-                <img
-                  class="uk-comment-avatar"
-                  src={`https://eu.ui-avatars.com/api/?name=${question.person.fullName}`}
-                  width="80"
-                  height="80"
-                  alt=""
-                />
+                <Avatar name={question.person.fullName} />
               </div>
               <div class="uk-width-expand">
                 <h4 class="uk-comment-title uk-margin-remove">

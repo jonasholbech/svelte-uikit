@@ -1,7 +1,8 @@
 <script>
   import { formatDistance } from "date-fns";
-
+  import { user } from "../stores/user";
   export let answer;
+  import Avatar from "./Avatar.svelte";
 </script>
 
 <li>
@@ -12,13 +13,7 @@
     <header class="uk-comment-header uk-position-relative">
       <div class="uk-grid-medium uk-flex-middle" uk-grid>
         <div class="uk-width-auto">
-          <img
-            class="uk-comment-avatar"
-            src={`https://eu.ui-avatars.com/api/?name=${answer.person.fullName}`}
-            width="80"
-            height="80"
-            alt=""
-          />
+          <Avatar name={answer.person.fullName} />
         </div>
         <div class="uk-width-expand">
           <h4 class="uk-comment-title uk-margin-remove">
@@ -29,6 +24,15 @@
               addSuffix: true,
             })}
           </p>
+          {#if $user.id === answer.person.userID}
+            <ul class="uk-iconnav uk-position-top-right">
+              <li><button uk-icon="icon: plus" /></li>
+              <li><button uk-icon="icon: file-edit" /></li>
+              <li><button uk-icon="icon: copy" /></li>
+              <li><button uk-icon="icon: trash" /></li>
+            </ul>
+          {/if}
+          <hr class="uk-divider-icon" />
         </div>
       </div>
     </header>
@@ -39,3 +43,6 @@
     </div>
   </article>
 </li>
+
+<style>
+</style>

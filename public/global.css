@@ -82,9 +82,20 @@ h2 {
 .uk-list > li > a {
   display: block;
 }
+nav {
+  padding: 1rem;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.4);
+}
 nav > *:first-child {
   margin-left: 1rem;
 }
 nav > *:last-child {
   margin-right: 1rem;
+}
+body,
+html {
+  scroll-behavior: smooth;
+}
+.uk-comment-list .uk-comment ~ ul > :nth-child(n + 2) {
+  margin-top: 2rem;
 }

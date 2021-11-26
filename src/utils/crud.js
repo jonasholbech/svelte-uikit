@@ -1,4 +1,9 @@
-import { getRoomsQuery, getRoomQuery, getAddAnswerQuery } from "./gql";
+import {
+  getRoomsQuery,
+  getRoomQuery,
+  getAddAnswerQuery,
+  getAddQuestionQuery,
+} from "./gql";
 export const getRooms = async (user) => {
   const resp = await fetch("/api/gql", {
     method: "POST",
@@ -31,6 +36,18 @@ export const addAnswer = async (user, answer, questionID) => {
       "Content-Type": "application/json",
     },
     body: getAddAnswerQuery(user, answer, questionID),
+  });
+  const data = await resp.json();
+  return data.data;
+};
+export const addQuestion = async (user, question, details, roomID) => {
+  const resp = await fetch("/api/gql", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${user.token.access_token}`,
+      "Content-Type": "application/json",
+    },
+    body: getAddQuestionQuery(user, question, details, roomID),
   });
   const data = await resp.json();
   return data.data;

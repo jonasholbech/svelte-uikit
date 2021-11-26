@@ -1,24 +1,19 @@
 <script>
-  import { onMount } from "svelte";
   let details = "";
   let question = "";
-  export let addAnswerSubmit;
-  export let questionID;
-  let firstField;
+  export let addQuestionSubmit;
 
-  onMount(() => {
-    //console.log(firstField);
-    //firstField.focus();
-  });
+  let firstField;
 </script>
 
 <button
   class="uk-button uk-button-default uk-margin-small-right"
   type="button"
   uk-toggle="target: #offcanvas-reveal"
-  on:click={() => {
-    console.log(firstField);
-    firstField.focus();
+  on:click={async () => {
+    setTimeout(() => {
+      firstField.focus();
+    }, 100);
   }}>Add your question</button
 >
 <div id="offcanvas-reveal" uk-offcanvas="mode: reveal; overlay: true">
@@ -27,8 +22,9 @@
 
     <form
       on:submit|preventDefault={() => {
-        addAnswerSubmit(value, questionID);
-        value = "";
+        addQuestionSubmit(question, details);
+        question = "";
+        details = "";
       }}
     >
       <fieldset class="uk-fieldset">
@@ -40,6 +36,7 @@
             placeholder="Input"
             bind:value={question}
             bind:this={firstField}
+            required
           />
         </div>
 
@@ -50,7 +47,6 @@
             placeholder="Textarea"
             name="question"
             bind:value={details}
-            required
           />
         </div>
         <button class="uk-button uk-button-primary uk-align-right">Ask</button>

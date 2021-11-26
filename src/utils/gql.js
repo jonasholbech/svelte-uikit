@@ -27,10 +27,12 @@ export const getRoomQuery = (slug) => {
               createdAt
               person {
                 fullName
+                userID
               }
             }
             person {
               fullName
+              userID
             }
           }
         }
@@ -56,6 +58,7 @@ export const getAddAnswerQuery = (user, answer, questionID) => {
             createdAt
             person {
               fullName
+              userID
             }
         }
       }`,
@@ -63,6 +66,46 @@ export const getAddAnswerQuery = (user, answer, questionID) => {
       answer,
       userID: user.id,
       questionID,
+    },
+  };
+  return JSON.stringify(query);
+};
+
+export const getAddQuestionQuery = (user, question, details, roomID) => {
+  const query = {
+    query: `mutation AddQuestion($question:String!, $details:String, $userID:String!, $roomID:ID!){
+        createQuestion(data:{
+          question:$question
+          details:$details
+          room: {connect:{id:$roomID}}
+          person:{ connect: { userID: $userID } }
+        }) {
+         
+            id
+            question
+            details
+            createdAt
+            answer {
+            answer
+            id
+            createdAt
+            person {
+                fullName
+                userID
+            }
+            }
+            person {
+            fullName
+            userID
+            }
+                
+        }
+      }`,
+    variables: {
+      question,
+      details,
+      userID: user.id,
+      roomID,
     },
   };
   return JSON.stringify(query);
