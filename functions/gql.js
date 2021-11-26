@@ -7,7 +7,7 @@ const token = process.env.GRAPH_TOKEN;
 
 exports.handler = async (event, context) => {
   //TODO: auth
-  console.log(context);
+  //console.log(context);
   try {
     const response = await fetch(API_ENDPOINT, {
       method: "POST",
@@ -18,7 +18,7 @@ exports.handler = async (event, context) => {
       body: event.body,
     });
     const data = await response.json();
-    console.log(data);
+    //console.log(data);
     return { statusCode: 200, body: JSON.stringify({ data: data.data }) };
   } catch (error) {
     console.log(error);

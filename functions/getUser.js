@@ -9,10 +9,10 @@ exports.handler = async (event, context) => {
   const user = context.clientContext.user;
   const query = {
     query: `query MyQuery($userID:String) {
-person(where:{userID:$userID}) {
-  fullName
-}
-}`,
+              person(where:{userID:$userID}) {
+                fullName
+              }
+          }`,
     variables: {
       userID: user.sub,
     },

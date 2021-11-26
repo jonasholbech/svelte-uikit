@@ -10,6 +10,7 @@
     Prism.highlightAll();
     //TODO: highlighter for hvert answer og ikke ved nyt question
   });
+  function deleteAnswer() {}
 </script>
 
 <li bind:this={el}>
@@ -33,8 +34,9 @@
           </p>
           {#if $user.id === answer.person.userID}
             <ul class="uk-iconnav uk-position-top-right">
-              <li><button uk-icon="icon: plus" /></li>
-              <li><button uk-icon="icon: file-edit" /></li>
+              <li>
+                <button uk-icon="icon: file-edit" on:click={deleteAnswer} />
+              </li>
               <li><button uk-icon="icon: copy" /></li>
               <li><button uk-icon="icon: trash" /></li>
             </ul>

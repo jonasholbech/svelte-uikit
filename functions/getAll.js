@@ -1,6 +1,7 @@
 require("isomorphic-fetch");
 exports.handler = async (evt, ctx) => {
   //const service = someDBservice()
+  //TODO: not used
   //let task = JSON.parse(evt.body);
   console.log(ctx.clientContext);
   const user = ctx.clientContext.user;

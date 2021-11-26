@@ -1,10 +1,14 @@
 # TODO
 
 Question => component
-delete anser
+delete answer
 delete question
 move redirect component to module or similar
+interval on fetching (commented out)
+reply button/link in question
+collapsible comments?
+TODO: s
+remove UIKt dep
+preview when commenting/asking?
 
 # Tests
-
-User with more than one name
