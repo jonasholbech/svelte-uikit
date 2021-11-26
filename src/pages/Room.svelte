@@ -1,6 +1,7 @@
 <script>
   import { navigate } from "svelte-routing";
   import { formatDistance } from "date-fns";
+  import { markdown } from "../utils/render";
   import { onMount, onDestroy } from "svelte";
   import { isLoggedIn, identityChecksDone, user } from "../stores/user";
   import { getRoomData, addAnswer, addQuestion } from "../utils/crud";
@@ -101,7 +102,7 @@
           <h4 class="uk-comment-title">{question.question}</h4>
           <div class="uk-comment-body">
             <p>
-              {question.details}
+              {@html markdown(question.details)}
             </p>
           </div>
         </article>
