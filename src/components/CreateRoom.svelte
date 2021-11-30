@@ -91,6 +91,28 @@
 {/if}
 
 <style>
+  /*
+  mere elegant, noget a la
+  input,
+      label {
+        display: block;
+      }
+      #app {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: end;
+        gap: 1rem;
+      }
+      input {
+        width: 100%;
+      }
+      label {
+        flex-grow: 2;
+      }
+      h2 {
+        width: 100%;
+      }
+  */
   .fields {
     display: grid;
     grid-template-columns: 1fr 100px;
