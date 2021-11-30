@@ -9,6 +9,11 @@
   export let addAnswerSubmit;
   export let deleteAnswer;
   export let deleteQuestion;
+  function focusForm() {
+    const ta = document.querySelector(`#form_${question.id} textarea`);
+    console.log(ta);
+    ta.focus();
+  }
 </script>
 
 <li id={`question_${question.id}`}>
@@ -31,7 +36,11 @@
       </div>
       <div class="uk-position-top-right uk-position-small">
         <ul class="uk-iconnav">
-          <li><button uk-icon="reply" /></li>
+          <li>
+            <a href={`#form_${question.id}`} on:click={focusForm}
+              ><span uk-icon="reply" /></a
+            >
+          </li>
           <li>
             <button
               uk-icon="icon: trash"
@@ -53,7 +62,9 @@
     {#each question.answer as answer (answer.id)}
       <Answer {deleteAnswer} {answer} />
     {/each}
-    <li><AnswerForm {addAnswerSubmit} questionID={question.id} /></li>
+    <li id={`form_${question.id}`}>
+      <AnswerForm {addAnswerSubmit} questionID={question.id} />
+    </li>
   </ul>
   <!-- comments end-->
 </li>
