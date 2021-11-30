@@ -2,7 +2,6 @@
 
 move redirect component to module or similar
 interval on fetching (commented out)
-reply button/link in question
 collapsible comments?
 TODO: s
 remove UIKt dep
@@ -13,7 +12,12 @@ new room does not update state
 
 - skal det være en store? eller lægges på app?
 
+der er noget med at den ikke altid poster/refresher, kunne være graphcms der driller, kig på return value
+errr handling generelt, måske en toast til at starte med?
+
 # Tests
+
+multi user permissions
 
 # notes
 
