@@ -11,8 +11,10 @@
   export let deleteQuestion;
   function focusForm() {
     const ta = document.querySelector(`#form_${question.id} textarea`);
-    console.log(ta);
-    ta.focus();
+    //without STO it gets focus and looses it imediately, maybe i have to set it through props/ref
+    setTimeout(() => {
+      ta.focus();
+    }, 100);
   }
 </script>
 
