@@ -12,12 +12,12 @@
       </h3>
     </div>
     <div class="uk-card-body">
+      <p>Hi there</p>
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque
-        tempora architecto cum vero recusandae numquam perspiciatis doloribus
-        optio similique velit eius illo, ut animi veritatis temporibus sequi.
-        Tempora, officiis animi?
+        This is just a little pet project of mine, learning graphQL, Svelte,
+        auth, cloud functions
       </p>
+      <p>Bug will be frequent as I try out new stuff :-)</p>
     </div>
     <div class="uk-card-footer">
       <button

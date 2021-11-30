@@ -1,9 +1,10 @@
 <script>
   import { canAccess } from "../utils/identity";
   import { role, user } from "../stores/user";
+  import { rooms } from "../stores/rooms";
   import slugify from "slugify";
   let room = "";
-  let promise = null;
+  let response = null;
   async function post(e) {
     const query = {
       query: `mutation AddRoom($name:String!, $userID:String!, $slug:String!) {
@@ -43,18 +44,25 @@
   <div id="my-id" uk-modal>
     <div class="uk-modal-dialog uk-modal-body">
       <h2 class="uk-modal-title">Create Room</h2>
-      <form on:submit|preventDefault={() => (promise = post())}>
-        <div class="uk-margin">
-          {#if promise !== null}
-            {#await promise}
-              <div uk-spinner />
-            {:then response}
-              <p>
-                <strong>{response.data.createRoom.name}</strong> was created
-              </p>
-            {:catch error}
-              <p style="color: red">{error.message}</p>
-            {/await}
+      <form
+        on:submit|preventDefault={async () => {
+          response = "creating";
+          response = await post();
+          rooms.update((old) => old.concat(response.data.createRoom));
+          room = "";
+        }}
+      >
+        <div class="uk-margin fields">
+          {#if response}
+            <div class="response">
+              {#if response === "creating"}
+                <div uk-spinner />
+              {:else}
+                <p>
+                  <strong>{response.data.createRoom.name}</strong> was created
+                </p>
+              {/if}
+            </div>
           {/if}
           <label
             >Room Name
@@ -74,9 +82,22 @@
         </div>
       </form>
 
-      <button class="uk-modal-close uk-button-secondary uk-button" type="button"
-        >X</button
+      <button
+        class="uk-modal-close uk-button-secondary uk-button uk-align-right"
+        type="button">X</button
       >
     </div>
   </div>
 {/if}
+
+<style>
+  .fields {
+    display: grid;
+    grid-template-columns: 1fr 100px;
+    gap: 1rem;
+    align-items: end;
+  }
+  .response {
+    grid-column: 1/-1;
+  }
+</style>
