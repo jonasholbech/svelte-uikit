@@ -52,6 +52,16 @@
         <button class="uk-button uk-button-primary uk-align-right">Ask</button>
       </fieldset>
     </form>
+    <div class="hint uk-align-left">
+      <p>Did you know: You can use markdown in the comments / questions?</p>
+      <p>E.g. Just wrap multiple lines of code in tripple backticks</p>
+      <pre>```js
+//your code here
+let x = 12;
+```
+      </pre>
+      <p>You can also do inline code with `code here`</p>
+    </div>
   </div>
 </div>
 

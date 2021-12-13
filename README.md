@@ -14,6 +14,10 @@ errr handling generelt, måske en toast til at starte med?
 
 delete room
 
+markdown nor parsed on first render of new question
+
+responsive?
+
 # Tests
 
 multi user permissions

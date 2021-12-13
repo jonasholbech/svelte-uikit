@@ -5,6 +5,7 @@
   import { canAccess } from "../utils/identity";
   import { rooms } from "../stores/rooms";
   import { getRooms } from "../utils/crud";
+
   //let rooms = [];
 
   $: userStatusChanged = $isLoggedIn ? getRoomsWrapper() : rooms.set([]);
@@ -21,7 +22,7 @@
     <li><Link to={`room/${room.slug}`} name={room.name}>{room.name}</Link></li>
   {/each}
 </ul>
-{#if $rooms.length === 0}
+{#if $rooms.length === 0 && $isLoggedIn}
   <p>There are no rooms yet.</p>
   {#if canAccess($role, "moderator")}
     <button

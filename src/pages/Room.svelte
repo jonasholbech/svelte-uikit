@@ -1,6 +1,5 @@
 <script>
   import { navigate } from "svelte-routing";
-
   import { onMount, onDestroy } from "svelte";
   import { isLoggedIn, identityChecksDone, user } from "../stores/user";
   import {
@@ -17,14 +16,12 @@
 
   let roomData = null;
   $: $identityChecksDone && !$isLoggedIn && redirect(); //TODO: move to external helper
-  $: $identityChecksDone && $isLoggedIn && setup();
+  $: $identityChecksDone && $isLoggedIn && getData();
   function redirect() {
     console.log("redirecting");
     navigate("/");
   }
-  function setup() {
-    getData();
-  }
+
   let interval = null;
   onMount(() => {
     //interval = setInterval(getData, 15000);
@@ -37,10 +34,8 @@
     //TODO: order by in GQL query
     const data = await getRoomData($user, slug);
     roomData = data.room;
-    console.log(roomData);
   }
   async function addAnswerSubmit(answer, questionID) {
-    console.log(answer);
     const nextAnswer = await addAnswer($user, answer, questionID);
     getData();
     //TODO: merge state instead of fetching again

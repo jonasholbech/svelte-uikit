@@ -30,6 +30,7 @@
     "netlify-identity-widget": "^1.9.2",
     "sirv-cli": "^1.0.0",
     "slugify": "^1.6.3",
+    "svelte-fsm": "^1.0.0",
     "svelte-routing": "^1.6.0"
   }
 }

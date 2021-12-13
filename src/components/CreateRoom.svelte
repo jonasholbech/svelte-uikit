@@ -1,4 +1,5 @@
 <script>
+  import fsm from "svelte-fsm";
   import { canAccess } from "../utils/identity";
   import { role, user } from "../stores/user";
   import { rooms } from "../stores/rooms";
@@ -38,21 +39,50 @@
     });
     return await resp.json();
   }
+  let error;
+
+  const form = fsm("entering", {
+    entering: {
+      submit: "submitting",
+    },
+
+    submitting: {
+      async _enter() {
+        response = "creating";
+        try {
+          response = await post();
+          rooms.update((old) => old.concat(response.data.createRoom));
+          room = "";
+          return "success";
+        } catch (err) {
+          return "error";
+        }
+      },
+
+      success: "completed",
+
+      error(err) {
+        error = err;
+        return "invalid";
+      },
+    },
+    invalid: {
+      input: "entering",
+    },
+
+    completed: {},
+  });
 </script>
 
 {#if canAccess($role, "moderator")}
   <div id="my-id" uk-modal>
     <div class="uk-modal-dialog uk-modal-body">
-      <h2 class="uk-modal-title">Create Room</h2>
-      <form
-        on:submit|preventDefault={async () => {
-          response = "creating";
-          response = await post();
-          rooms.update((old) => old.concat(response.data.createRoom));
-          room = "";
-        }}
-      >
+      <h2 class="uk-modal-title">Create Room {$form}</h2>
+      <form on:submit|preventDefault={form.submit}>
         <div class="uk-margin fields">
+          {#if error}
+            <p>{error}</p>
+          {/if}
           {#if response}
             <div class="response">
               {#if response === "creating"}
@@ -70,15 +100,22 @@
               bind:value={room}
               class="uk-input"
               required
+              on:input={form.input}
               type="text"
               placeholder="2nd sem autumn 22"
             />
           </label>
-          {#if room.length > 3}
+          <button
+            class="uk-button uk-button-primary"
+            type="submit"
+            disabled={$form !== "entering" || room.length < 3}>Submit</button
+          >
+
+          <!-- {#if room.length > 3}
             <button class="uk-button uk-button-primary">Save</button>
           {:else}
             <button class="uk-button uk-button-disabled">Save</button>
-          {/if}
+          {/if} -->
         </div>
       </form>
 
