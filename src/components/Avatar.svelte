@@ -1,6 +1,6 @@
 <script>
   export let name;
-  export const size = 60; //TODO: implement sizes indiv
+  export const size = 60;
   let parts = name.split(" ");
   let first = name[0];
   let second = name[1];
@@ -9,15 +9,15 @@
   }
 </script>
 
-<div>
+<div style={`--size: ${size}px`}>
   <span>{first}{second}</span>
 </div>
 
 <style>
   div {
     background: #39f;
-    width: 60px;
-    height: 60px;
+    width: var(--size);
+    height: var(--size);
     display: flex;
     justify-content: center;
     align-items: center;
